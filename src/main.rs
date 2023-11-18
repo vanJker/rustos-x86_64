@@ -2,9 +2,13 @@
 #![no_main]
 
 use core::panic::PanicInfo;
+use vga::WRITER;
+
+mod vga;
 
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
 
@@ -20,6 +24,14 @@ pub extern "C" fn _start() -> ! {
             *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
         }
     }
+
+    use core::fmt::Write;
+    WRITER.lock().write_str("Hello again").unwrap();
+    write!(WRITER.lock(), "\nSome numbers: {} and {}\n", 42, 1.337).unwrap();
+
+    println!("Hello, World{}", "!");
+
+    // panic!("some panic message");
 
     loop {}
 }

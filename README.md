@@ -1,4 +1,4 @@
-# RustOS-x86_64
+# rustos-x86_64
 
 Write an OS with x86_64 architecture in Rust.
 
