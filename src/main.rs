@@ -31,16 +31,29 @@ pub extern "C" fn _start() -> ! {
 
     rustos_x86_64::init();
 
+    // let ptr = 0xdeadbeaf as *mut u8;
+    // unsafe { *ptr = 42; }
+
+    // let ptr = 0x20549a as *mut u8;
+
+    // unsafe {
+    //     let _x = *ptr;
+    // }
+    // println!("read worked");
+
+    // unsafe {
+    //     *ptr = 42;
+    // }
+    // println!("write worked");
+
+    use x86_64::registers::control::Cr3;
+    let (level_4_page_table, _) = Cr3::read();
+    println!("Level 4 page table at: {:?}", level_4_page_table);
+
     #[cfg(test)]
     test_main();
 
     println!("It did not crash!");
 
     rustos_x86_64::hlt_loop();
-
-    // use rustos_x86_64::print;
-    // loop {
-    //     for _ in 0..10000 {}
-    //     print!("-");
-    // }
 }
